@@ -4,14 +4,16 @@ SHELL = /bin/sh
 # Name of the project
 PROJ_NAME=pmt
 	
-# .c files
+# .cpp files
 CPP_SOURCE=$(wildcard ./*.cpp)
-	
-# .h files
+CPP_ALGORITHMS=$(wildcard ./algorithms/*.cpp)
+
+# .hpp files
 HPP_SOURCE=$(wildcard ./*.hpp)
-	
+ 
 # Object files
 OBJ=$(subst .cpp,.o,$(CPP_SOURCE))
+ALGORITHMS_OBJ=$(subst .cpp,.o,$(CPP_ALGORITHMS))
 	
 # Compiler and linker
 CC=g++
@@ -26,12 +28,7 @@ all: BinFolder	$(PROJ_NAME)
 	sudo cp $(PROJ_NAME) ../bin
 	
 	
-$(PROJ_NAME): $(OBJ)
-	@ echo 'Building binary using GCC linker: $@'
-	$(CC) $^ -o $@
-	@ echo 'Finished building binary: $@'
-	@ echo ' '
-	
+$(PROJ_NAME): $(OBJ) $(ALGORITHMS_OBJ)
 ./%.o: ./%.cpp ./%.hpp
 	@ echo 'Building target using GCC compiler: $<'
 	$(CC) $< $(CC_FLAGS) -o $@
@@ -41,12 +38,15 @@ $(PROJ_NAME): $(OBJ)
 	@ echo 'Building target using GCC compiler: $<'
 	$(CC) $< $(CC_FLAGS) -o $@
 	@ echo ' '
-	
+
+./algorithms/%.o:./algorithms/%.cpp ./algorithms/algorithms.hpp
+	$(CC) $< $(CC_FLAGS) -o $@
+
 BinFolder:
 	@ mkdir -p ../bin
 	
 clean:
-	@ $(RM) ./*.o $(PROJ_NAME) *~
+	@ $(RM) ./algorithms/*.o ./*.o $(PROJ_NAME) *~
 
 install: all clean
 uninstall:

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include "pmt.hpp"
+#include "algorithms/algorithms.hpp"
 
 using namespace std;
 using std::cout; using std::endl;
@@ -37,6 +38,11 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
     
     //lista de patterns
     vector <string> patterns;
+    try{
+        check_txtfiles(textfiles);
+    }catch(string erro){
+        cout << erro << endl;
+    }
     if (p){
         try{
             patterns = get_pattern_list(pattern);
@@ -54,11 +60,25 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
     }
     //busca exata   
     else{
-
-    }
-    try{
-        check_txtfiles(textfiles);
-    }catch(string erro){
-        cout << erro << endl;
+        if(p){}
+        else{
+            //busca padrão
+            int patlen = pattern.size();
+            vector<int> lps(patlen,0);
+            lpscompute(pattern,patlen,lps);
+            int count = 0;
+            for(int i = 0; i < (int)textfiles.size();i++){
+                ifstream text(textfiles[i]);
+                string line;
+                for(int n_line = 0;!text.eof(); n_line++){
+                    getline(text,line);
+                    int linecount = kmp(line,pattern,lps);
+                    if(linecount> 0 and !c){
+                        cout << n_line << ":" << line << endl;
+                    }
+                    count += linecount;
+                }
+            }
+        }
     }
 }
