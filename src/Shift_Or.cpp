@@ -4,17 +4,17 @@
 using namespace std;
 
 //shift or
-long* pm(string pat) {
-    long mask[256];
-    int n = sizeof(mask) / sizeof(mask[0]);
-    memset(mask, ~1, n * sizeof(mask[0]));
+vector<long> pm(string pat) {
+    vector<long> mask(256);
+    for (int i = 0; i < 256; i++) {
+        mask[i] = ~0;
+    }
     for (int i = 0; i < pat.length(); i++) {
         mask[pat[i]] &= ~(1L << i);
     }
     return mask;
 }
-void shift_or(string txt, int patlen, long* mask, vector<int>& result, string pat) {
-    cout << " ";
+void shift_or(string txt, int patlen, vector<long> mask, vector<int>& result, string pat) {
     long S = ~1;
     for (int i = 0; i < txt.length(); i++) {
         S |= mask[txt[i]];
@@ -25,17 +25,6 @@ void shift_or(string txt, int patlen, long* mask, vector<int>& result, string pa
     }
 }
 
-void patternSO(string txt, string pat) {
-    vector<int> result;
+void patternSO(string txt, string pat, vector<int>& result) {
     shift_or(txt, pat.length(), pm(pat), result, pat);
-    if (result.size() > 0 || !result.empty()) {
-        cout << "total ocurrances: " << result.size();
-        cout << "\nthey occured at the folowing places: ";
-        for (int i = 0; i < result.size(); i++) {
-            cout << result[i] << ";";
-        }
-    }
-    else {
-        cout << "no ocurrances";
-    }
 }
