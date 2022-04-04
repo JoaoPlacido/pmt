@@ -70,58 +70,18 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
         }else if(algorithm == "ahocorasick"){
             run_aho_corasik(textfiles,patterns,c);
         }else if(algorithm == "sellers"){
-
+            if(emax>0){
+            run_sellers(textfiles,patterns,c,emax);
+            }
+            else{
+                cout<<"por favor use a opcao -e/--edit para colocar o valor de erro maximo."<<endl;
+                exit(0);
+            }
         }else if(algorithm == "shift_or"){
-
+            run_shift_or(textfiles,patterns,c);
         }else{
             cout<<"O algoritmo "<< algorithm <<"não existe ou não foi implementado.";
             exit(0);
         }
-    }
-    // busca aproximada    
-    if (emax > 0){
-        
-    }
-    //busca exata   
-    else{
-        if(p){
-            vector<vector<int>> go_to;
-            vector<vector<int>> occ;
-            vector<int> fails;
-            vector<int> count((int)patterns.size(),0);
-            build_fsm(patterns,go_to,occ,fails);
-            for(int i = 0; i < (int)textfiles.size();i++){
-                ifstream text(textfiles[i]);
-                string line;
-                for(int n_line = 1;!text.eof();n_line++){
-                    getline(text,line);
-                    int find = aho_corasick(line,count,go_to,occ,fails);
-                    if(find>0 and !c){
-                        cout << n_line << ":" << line << endl;
-                    }
-                }
-            }
-            if(c)for(int i = 0; i<(int)count.size();i++) cout<<patterns[i]<<":"<<count[i]<<endl;
-        }
-        else{
-            //busca padrão
-            int patlen = pattern.size();
-            vector<int> lps(patlen,0);
-            lpscompute(pattern,patlen,lps);
-            int count = 0;
-            for(int i = 0; i < (int)textfiles.size();i++){
-                ifstream text(textfiles[i]);
-                string line;
-                for(int n_line = 1;!text.eof(); n_line++){
-                    getline(text,line);
-                    int linecount = kmp(line,pattern,lps);
-                    if(linecount> 0 and !c){
-                        cout << n_line << ":" << line << endl;
-                    }
-                    count += linecount;
-                }
-            }
-            if (c) cout<<count<<endl;
-        }
-    }
+    }    
 }

@@ -5,6 +5,7 @@
 #include <deque>
 #include <cassert>
 #include <fstream>
+#include "algorithms.hpp"
 
 using namespace std;
 
@@ -119,6 +120,7 @@ void run_aho_corasik(vector<string> txt_set, vector<string> pat_set, bool c){
             }
             n_line++;
         }
+        txt.close();
     }
     if(c) for(int i = 0;i<l_pat_set;i++){
         cout<<pat_set[i]<<": "<<count[i]<<endl;

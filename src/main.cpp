@@ -49,7 +49,9 @@ void interface(int argc, char *argv[]){
         case 'e':
             
             emax = std::strtol(optarg, &char_part, 10);
-            
+            if(emax>0){
+                cout<< "-e: o valor do argumento tem que ser maior que 0.";
+            } 
             if(char_part){
                 cout << "'-e': argumento invalido" <<endl;
                 exit(0);
