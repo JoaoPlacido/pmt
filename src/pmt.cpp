@@ -68,7 +68,7 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
         if(algorithm == "kmp"){
             run_kmp(textfiles,patterns,c);
         }else if(algorithm == "ahocorasick"){
-
+            run_aho_corasik(textfiles,patterns,c);
         }else if(algorithm == "sellers"){
 
         }else if(algorithm == "shift_or"){

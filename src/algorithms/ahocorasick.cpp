@@ -4,6 +4,7 @@
 #include <vector>
 #include <deque>
 #include <cassert>
+#include <fstream>
 
 using namespace std;
 
@@ -95,4 +96,31 @@ int aho_corasick(string txt, vector<int>& count,vector<vector<int>>& go_to, vect
         i++;
     }
     return find;
+}
+void run_aho_corasik(vector<string> txt_set, vector<string> pat_set, bool c){
+    vector<vector<int>> lps_set;
+    int l_txt_set = (int)txt_set.size();
+    int l_pat_set = (int)pat_set.size();
+    vector<int> count (l_pat_set,0);
+    vector<vector<int>> go_to;
+    vector<vector<int>> occ;
+    vector<int> fails;
+    build_fsm(pat_set,go_to,occ,fails);
+    for(int i = 0; i<l_txt_set;i++){
+        ifstream txt(txt_set[i]);
+        string line;
+        int n_line =1;
+        while (!txt.eof())
+        {
+            getline(txt,line);
+            int find = aho_corasick(line,count,go_to,occ,fails);
+            if(find>0 and !c){
+                cout << "Line "<< n_line <<": "<<line<<endl;
+            }
+            n_line++;
+        }
+    }
+    if(c) for(int i = 0;i<l_pat_set;i++){
+        cout<<pat_set[i]<<": "<<count[i]<<endl;
+    }
 }
