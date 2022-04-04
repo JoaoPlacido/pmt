@@ -44,19 +44,39 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
         check_txtfiles(textfiles);
     }catch(string erro){
         cout << erro << endl;
+        exit(0);
     }
 
+    //faz um lista de padroes com o arquivo dado
     if (p){
         try{
             patterns = get_pattern_list(pattern);
         }
+        //caso o arquivo não exista ou possa ser acessado
         catch(...){
             cout << "Arquivo "<< pattern << " nao encontrado" << endl;
             exit(0);
         }
     }
     else{
+        //bota o padrao dado sozinho na lista, para simplificar a chamada dos metodos dos algoritmos
         patterns.push_back(pattern);
+    }
+
+    //realizando busca com um algoritmo especifico
+    if(a){
+        if(algorithm == "kmp"){
+            run_kmp(textfiles,patterns,c);
+        }else if(algorithm == "ahocorasick"){
+
+        }else if(algorithm == "sellers"){
+
+        }else if(algorithm == "shift_or"){
+
+        }else{
+            cout<<"O algoritmo "<< algorithm <<"não existe ou não foi implementado.";
+            exit(0);
+        }
     }
     // busca aproximada    
     if (emax > 0){

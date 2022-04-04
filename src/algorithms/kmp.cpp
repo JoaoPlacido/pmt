@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "algorithms.hpp"
+#include <fstream>
 
 using namespace std;
 //kpm
@@ -56,4 +57,39 @@ int kmp(string txt, string pat,vector<int>& lps)
     }
     //cout << sum;
     return sum;
+}
+void run_kmp(vector<string> txt_set, vector<string> pat_set, bool c){
+    vector<vector<int>> lps_set;
+    int l_txt_set = (int)txt_set.size();
+    int l_pat_set = (int)pat_set.size();
+    vector<int> count (l_pat_set,0);
+    for(int i =0; i<l_pat_set;i++){
+        int pat_len=(int)pat_set[i].size();
+        lps_set.push_back(vector<int> (pat_len,0));
+        lpscompute(pat_set[i],pat_len,lps_set[i]);        
+    }
+    for(int t=0;t<l_txt_set;t++){
+        ifstream txt (txt_set[t]);
+        string line;
+        int n_line = 1;
+        bool find = false;
+        while (!txt.eof())
+        {
+            getline(txt,line);
+            for(int p = 0;p<l_pat_set;p++){
+                int line_count = kmp(line,pat_set[p],lps_set[p]);
+                count[p] += line_count;
+                if(line_count >0) find=true;
+            }
+            if(find and !c){
+                cout << "line "<<n_line<<": "<<line<<endl;
+            }
+            n_line++;
+        }
+    }
+    if(c){
+        for(int i =0; i<l_pat_set;i++){
+            cout << pat_set[i]<<": "<<count[i]<<endl;
+        }
+    }
 }

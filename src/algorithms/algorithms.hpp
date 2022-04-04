@@ -11,6 +11,6 @@ void shift_or(std::string txt, int patlen, long* mask, std::vector<int>& result,
 void patternSO(std::string txt, std::string pat);
 void build_fsm(vector<string> pat_set, vector<vector<int>>& go_to,vector<vector<int>>& occ,vector<int>& fails);
 bool aho_corasick(string txt, vector<int>& count,vector<vector<int>>& go_to, vector<vector<int>>& occ,vector<int>& fails);
-
+void run_kmp(vector<string> txt_set, vector<string> pat_set, bool c);
 
 #endif // ALGORITHMS_HPP
