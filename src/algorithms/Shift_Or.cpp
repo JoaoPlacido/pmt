@@ -7,17 +7,17 @@
 using namespace std;
 
 //shift or
-long* pm(string pat) {
-    long mask[256];
-    int n = sizeof(mask) / sizeof(mask[0]);
-    memset(mask, ~1, n * sizeof(mask[0]));
-    for (int i = 0; i < (int)pat.length(); i++) {
+vector<long> pm(string pat) {
+    vector<long> mask(256);
+    for (int i = 0; i < 256; i++) {
+        mask[i] = ~0;
+    }
+    for (int i = 0; i < pat.length(); i++) {
         mask[pat[i]] &= ~(1L << i);
     }
     return mask;
 }
-bool shift_or(string txt, int patlen, long* mask, int& result, string pat) {
-    //cout << " ";
+bool shift_or(string txt, int patlen, vector<long> mask, int& result, string pat) {
     bool find = false;
     long S = ~1;
     for (int i = 0; i < (int)txt.length(); i++) {
