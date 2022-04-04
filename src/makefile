@@ -21,6 +21,7 @@ CC=g++
 # Flags for compiler
 CC_FLAGS=-c         \
 	-W         \
+	-g
 # Command used at clean target
 RM = rm -rf
 

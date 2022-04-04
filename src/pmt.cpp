@@ -18,7 +18,7 @@ vector<string> get_pattern_list(string patternfile){
     else{
         while(!file.eof()){
             getline(file,line);
-            patterns.push_back(line);
+            if(line.size()>0) patterns.push_back(line);
         }
         file.close();
         return patterns;
@@ -38,17 +38,21 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
     
     //lista de patterns
     vector <string> patterns;
+
+    //checar se dar pra abrir os txts
     try{
         check_txtfiles(textfiles);
     }catch(string erro){
         cout << erro << endl;
     }
+
     if (p){
         try{
             patterns = get_pattern_list(pattern);
         }
         catch(...){
             cout << "Arquivo "<< pattern << " nao encontrado" << endl;
+            exit(0);
         }
     }
     else{
@@ -60,7 +64,25 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
     }
     //busca exata   
     else{
-        if(p){}
+        if(p){
+            vector<vector<int>> go_to;
+            vector<vector<int>> occ;
+            vector<int> fails;
+            vector<int> count((int)patterns.size(),0);
+            build_fsm(patterns,go_to,occ,fails);
+            for(int i = 0; i < (int)textfiles.size();i++){
+                ifstream text(textfiles[i]);
+                string line;
+                for(int n_line = 1;!text.eof();n_line++){
+                    getline(text,line);
+                    int find = aho_corasick(line,count,go_to,occ,fails);
+                    if(find>0 and !c){
+                        cout << n_line << ":" << line << endl;
+                    }
+                }
+            }
+            if(c)for(int i = 0; i<(int)count.size();i++) cout<<patterns[i]<<":"<<count[i]<<endl;
+        }
         else{
             //busca padrão
             int patlen = pattern.size();
@@ -70,7 +92,7 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
             for(int i = 0; i < (int)textfiles.size();i++){
                 ifstream text(textfiles[i]);
                 string line;
-                for(int n_line = 0;!text.eof(); n_line++){
+                for(int n_line = 1;!text.eof(); n_line++){
                     getline(text,line);
                     int linecount = kmp(line,pattern,lps);
                     if(linecount> 0 and !c){
@@ -79,6 +101,7 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
                     count += linecount;
                 }
             }
+            if (c) cout<<count<<endl;
         }
     }
 }
