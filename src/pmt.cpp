@@ -79,6 +79,8 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
             }
         }else if(algorithm == "shift_or"){
             run_shift_or(textfiles,patterns,c);
+        }else if(algorithm == "wu_manber"){
+            run_wu_manber(textfiles,patterns,c,emax);
         }else{
             cout<<"O algoritmo "<< algorithm <<"não existe ou não foi implementado.";
             exit(0);
