@@ -26,7 +26,7 @@ bool sellers(string txt, string pat, int& count, int err_size) {
     vector<int> nxtc(patlen + 1, 0);
     vector<int> col(patlen + 1);
     iota(col.begin(), col.end(), 0);
-    for (int i = 0; i < txt.length(); i++) {
+    for (int i = 0; i < (int)txt.length(); i++) {
         nextC(col, pat, patlen, txt[i], nxtc);
         col = nxtc;
         //cout <<col[1]<< "\n";

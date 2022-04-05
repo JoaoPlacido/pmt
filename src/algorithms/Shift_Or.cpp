@@ -12,7 +12,7 @@ vector<long> pm(string pat) {
     for (int i = 0; i < 256; i++) {
         mask[i] = ~0;
     }
-    for (int i = 0; i < pat.length(); i++) {
+    for (int i = 0; i < (int)pat.length(); i++) {
         mask[pat[i]] &= ~(1L << i);
     }
     return mask;
