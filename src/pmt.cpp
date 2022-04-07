@@ -67,7 +67,7 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
     if(a){
         if(algorithm == "kmp"){
             run_kmp(textfiles,patterns,c);
-        }else if(algorithm == "ahocorasick"){
+        }else if(algorithm == "ahocor"){
             run_aho_corasik(textfiles,patterns,c);
         }else if(algorithm == "sellers"){
             if(emax>0){
@@ -77,10 +77,16 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
                 cout<<"por favor use a opcao -e/--edit para colocar o valor de erro maximo."<<endl;
                 exit(0);
             }
-        }else if(algorithm == "shift_or"){
+        }else if(algorithm == "shift-or"){
             run_shift_or(textfiles,patterns,c);
-        }else if(algorithm == "wu_manber"){
+        }else if(algorithm == "wu-manber"){
+            if(emax>0){
             run_wu_manber(textfiles,patterns,c,emax);
+            }
+            else{
+                cout<<"por favor use a opcao -e/--edit para colocar o valor de erro maximo."<<endl;
+                exit(0);
+            }
         }else{
             cout<<"O algoritmo "<< algorithm <<"não existe ou não foi implementado.";
             exit(0);

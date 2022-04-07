@@ -35,8 +35,9 @@ void run_wu_manber(vector<string> txt_set, vector<string> pat_set, bool c,int er
     vector<vector<int>> lps_set;
     int l_txt_set = (int)txt_set.size();
     int l_pat_set = (int)pat_set.size();
-    vector<int> count (l_pat_set,0);
     for(int i = 0;i<l_txt_set;i++){
+        cout << "arquivo: " <<txt_set[i] << endl;
+        vector<int> count (l_pat_set,0);
         ifstream txt(txt_set[i]);
         string line;
         int n_line = 1;
@@ -52,8 +53,7 @@ void run_wu_manber(vector<string> txt_set, vector<string> pat_set, bool c,int er
             n_line++;
         }
         txt.close();
-    }
-    if(c){
+        cout << "Quantidade de ocorrencias:" <<endl;
         for(int i =0;i<l_pat_set;i++){
             cout << pat_set[i]<<": "<<count[i]<<endl;
         }

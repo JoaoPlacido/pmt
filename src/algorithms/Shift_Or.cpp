@@ -35,8 +35,10 @@ void run_shift_or(vector<string> txt_set, vector<string> pat_set, bool c) {
     vector<vector<int>> lps_set;
     int l_txt_set = (int)txt_set.size();
     int l_pat_set = (int)pat_set.size();
-    vector<int> count(l_pat_set, 0);
-    for (int i = 0; i < l_txt_set; i++) {
+    for (int i = 0; i < l_txt_set; i++) 
+    {   
+        vector<int> count(l_pat_set, 0);
+        cout << "arquivo: " <<txt_set[i] << endl;
         ifstream txt(txt_set[i]);
         string line;
         int n_line = 1;
@@ -52,10 +54,10 @@ void run_shift_or(vector<string> txt_set, vector<string> pat_set, bool c) {
             n_line++;
         }
         txt.close();
-    }
-    if (c) {
+        cout << "Quantidade de ocorrencias:" <<endl;
         for (int i = 0; i < l_pat_set; i++) {
             cout << pat_set[i] << ": " << count[i] << endl;
-        }
+        }    
     }
+    
 }

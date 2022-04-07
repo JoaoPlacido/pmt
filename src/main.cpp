@@ -15,6 +15,33 @@ using std::cout; using std::endl;
 using std::cin; using std::string;
 using std::vector;
 
+void help_msg(){
+    cout<<"pmt: \tpmt [-a ALGORITHM] [-e EMAX] [-p] [-c] PATTERN TEXTFILE [TEXTFILE...]"<<endl;
+    cout<<"\tProcura o padrão PATTERN no(s) arquivo(s) TEXTFILE."<<endl<<endl;
+    cout<<"\tPor padrão imprime as linhas do(s) texto(s) em que o padrão PATTERN \n\taparece."<<endl<<endl;
+    cout<<"\tOpções:\n"<<endl;
+    cout<<"\t-a/--algorithm\t"<<"\tescolhe um algoritmo especifico para realizar a\n\t\t\t\tbusca de padrão(ões)." <<endl;
+    cout<<"\n\t-e/--edit\t"<<"\tlocaliza todas ocorrências do(s) padrão(ões)\n\t\t\t\tno(s) texto(s) em uma distância de erro maximo.\n\t\t\t\t(Usado apenas nos algoritmos de busca aproximada)"<<endl;
+    cout<<"\n\t-p/--pattern\t"<<"\trealiza a busca em todos os padrões em um\n\t\t\t\tarquivo dado em PATTERN."<<endl;
+    cout<<"\n\t-c/--count\t"<<"\timprime apenas a quantidade total de ocorrências\n\t\t\t\tdo(s) padrão(ões) condida no(s) arquivo(s) de\n\t\t\t\ttexto."<<endl<<endl;
+    cout<<"\tArgumentos:\n"<<endl;
+    cout<<"\tALGORITHM\t"<<"\tnome do algoritmo que vai realiazar a busca de\n\t\t\t\tpadrões."<<endl;
+    cout<<"\n\tEMAX\t"<<"\t\tvalor inteiro maior que 0 do erro maximo, usado para\n\t\t\t\tbusca aproximada(deve ser dado em caso de usar um\n\t\t\t\talgoritmo de busca aproximada)"<<endl;
+    cout<<"\n\tPATTERN\t"<<"\t\tpadrão a ser procurado no(s) texto(s). Caso usado '-p'\n\t\t\t\tPATTERN é um arquivo contendo os padrões a serem procurados(cada padrão por linha)."<<endl;
+    cout<<"\n\tTEXTFILE\t"<<"\ttexto em que vai ser procurado o(s) padrão(ões)\n\t\t\t\t(pode ser dado mais de um texto)."<<endl;
+    cout<<"\nLista de algoritmos implementados:"<<endl<<endl;
+    cout<<"nome                     | tipo de busca | representação(ALGORITHM) "<<endl;
+    cout<<"-------------------------|---------------|-------------------------"<<endl;
+    cout<<"Knuth-Morris-Pratt       | padrão        | kmp"<<endl;
+    cout<<"-------------------------|---------------|-------------------------"<<endl;
+    cout<<"Aho-Corasick             | padrão        | ahocor"<<endl;
+    cout<<"-------------------------|---------------|-------------------------"<<endl;
+    cout<<"Shift-Or                 | padrão        | shift-or"<<endl;
+    cout<<"-------------------------|---------------|-------------------------"<<endl;
+    cout<<"Needleman-Wunsch-Sellers | aproximado    | sellers"<<endl;
+    cout<<"-------------------------|---------------|-------------------------"<<endl;
+    cout<<"Wu-Manber                | aproximado    | wu-manber"<<endl;
+}
     
 void interface(int argc, char *argv[]){
    
@@ -47,12 +74,11 @@ void interface(int argc, char *argv[]){
         {
 
         case 'e':
-            
-            emax = std::strtol(optarg, &char_part, 10);
+            emax = (int)std::strtol(optarg, &char_part, 10);
             if(emax<=0){
                 cout<< "-e: o valor do argumento tem que ser maior que 0.";
             } 
-            if(string(char_part) == ""){
+            if(string(char_part) != ""){
                 cout << "'-e': argumento invalido" <<endl;
                 exit(0);
             }
@@ -76,8 +102,10 @@ void interface(int argc, char *argv[]){
             break;
 
         case 'h':
+            help_msg();
             exit(0);
             break;
+
         default:
             
             cout << "-" << (char)opt <<" nao e uma opcao valida!" << endl;
