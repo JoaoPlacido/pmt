@@ -86,6 +86,7 @@ void run_kmp(vector<string> txt_set, vector<string> pat_set, bool c){
                 cout << "line "<<n_line<<": "<<line<<endl;
             }
             n_line++;
+            find =false;
         }
         txt.close();
         cout << "Quantidade de ocorrencias:" <<endl;

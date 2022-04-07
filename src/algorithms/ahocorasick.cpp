@@ -87,13 +87,16 @@ int aho_corasick(string txt, vector<int>& count,vector<vector<int>>& go_to, vect
     int find =0;
     while (i<n)
     {
+        //cout<<int(txt[i])<<endl;
         int c = int(txt[i]);
-        while (go_to[cur][c] < 0)cur = fails[cur];
+        while(c<0) c=int(txt[++i]);
+            while (go_to[cur][c] < 0)cur = fails[cur];
         cur = go_to[cur][c];
         for(int k = 0; k<(int)occ[cur].size();k++){
             count[occ[cur][k]]++;
             find++;
         }
+        
         i++;
     }
     return find;
@@ -105,17 +108,20 @@ void run_aho_corasik(vector<string> txt_set, vector<string> pat_set, bool c){
     vector<vector<int>> go_to;
     vector<vector<int>> occ;
     vector<int> fails;
+    vector<int> count; 
     build_fsm(pat_set,go_to,occ,fails);
     for(int i = 0; i<l_txt_set;i++){
         cout << "arquivo: " <<txt_set[i] << endl;
-        vector<int> count (l_pat_set,0);
+        count = vector<int>(l_pat_set,0);
         ifstream txt(txt_set[i]);
         string line;
         int n_line =1;
         while (!txt.eof())
         {
             getline(txt,line);
+            //cout<<line<<endl;
             int find = aho_corasick(line,count,go_to,occ,fails);
+            //cout<<"***"<<endl;
             if(find>0 and !c){
                 cout << "line "<< n_line <<": "<<line<<endl;
             }

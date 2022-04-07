@@ -101,7 +101,7 @@ void pmt(int emax, bool p, bool a,bool c, string pattern, string algorithm,vecto
             //caso for um mais de um padrão
             if(p) run_aho_corasik(textfiles,patterns,c);
             //caso for apenas um padrao
-            else run_shift_or(textfiles,patterns,c);
+            else run_kmp(textfiles,patterns,c);
         }
     }    
 }

@@ -35,6 +35,8 @@ void run_shift_or(vector<string> txt_set, vector<string> pat_set, bool c) {
     vector<vector<int>> lps_set;
     int l_txt_set = (int)txt_set.size();
     int l_pat_set = (int)pat_set.size();
+    vector<vector<long>> masks (l_pat_set,vector<long>());
+    for(int i= 0;i<l_pat_set;i++)masks[i]=pm(pat_set[i]);
     for (int i = 0; i < l_txt_set; i++) 
     {   
         vector<int> count(l_pat_set, 0);
@@ -46,7 +48,7 @@ void run_shift_or(vector<string> txt_set, vector<string> pat_set, bool c) {
             getline(txt, line);
             bool find = false;
             for (int j = 0; j < l_pat_set; j++) {
-                find = shift_or(line,pat_set[j].length(),pm(pat_set[j]),count[j],pat_set[j]);
+                find = shift_or(line,pat_set[j].length(),masks[j],count[j],pat_set[j]);
             }
             if (find and !c) {
                 cout << "line " << n_line << ": " << line << endl;
